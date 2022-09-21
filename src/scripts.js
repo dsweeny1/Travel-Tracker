@@ -1,16 +1,25 @@
 import './css/styles.css';
-// import './images/turing-logo.png'
 const dayjs = require('dayjs')
 import { fetchAll } from './apiCalls'
 import Session from './classes/Session';
 import Traveler from './classes/Traveler';
+import Trip from './classes/Trip';
+import Destination from './classes/Destination';
 
 
-console.log('This is the JavaScript entry file - your code begins here.');
+// console.log('This is the JavaScript entry file - your code begins here.');
 
 // QUERYSELECTORS
 const travelerGreeting = document.querySelector('.welcome-customer-text')
 const travelerCards = document.querySelector('.trip-container')
+const dateInput = document.querySelector('#select-date')
+// console.log(dateInput)
+const dataInput = document.querySelector('.data-input')
+const destinationInput = document.querySelector('#select-destination')
+const travelersInput = document.querySelector('#number-of-travelers')
+const durationInput = document.querySelector('#duration')
+const submitButton = document.querySelector('.submit-button')
+
 
 // GLOBAL VARIABLES
 let travelers;
@@ -18,6 +27,8 @@ let trips;
 let destinations;
 let session;
 let singleTraveler;
+let trip;
+let destination;
 const getFetch = () => {
     fetchAll()
     .then(data => {
@@ -26,13 +37,14 @@ const getFetch = () => {
         destinations = data[1].destinations
         trips = data[2].trips
         session = new Session(travelers, destinations, trips)
-        // let id = 10
-        singleTraveler = new Traveler(travelers[getRandomUserId])
+        singleTraveler = new Traveler(travelers[getRandomUserId()])
         console.log(singleTraveler)
         session.findAllTripsByTraveler(singleTraveler.id)
-        // console.log(session.eachTravelerTrips)
+        console.log(session.eachTravelerTrips)
         customerInfo()
         displayTravelerTrips()
+        showDestinations()
+        postTripData()
     })
 }
 
@@ -40,50 +52,86 @@ const getRandomUserId = () => {
     return Math.floor(Math.random() * 49) + 1;
 };
 
-const customerInfo = (travelers) => {
-    // session.findAllTripsByTraveler(singleTraveler.id)
-    travelerGreeting.innerText = `Welcome ${singleTraveler.name}!
+const testFunction = () => {
+    console.log(dateInput.value)
+    console.log(destinationInput.value)
+    console.log(travelersInput.value)
+    console.log(durationInput.value)
+}
+
+submitButton.addEventListener('click', testFunction)
+
+const customerInfo = () => {
+    travelerGreeting.innerText = `Welcome ${singleTraveler.name.split(" ")[0]}!
     So far you've spent $${session.getTotalSpent()} with us. Happy traveling!`
 };
 
 const displayTravelerTrips = () => {
-    // let trip = 
     let result = session.eachTravelerTrips.map(trip => {
         return `<section class="trip-container" id=${trip.userID}>
-        <img src="${trip.image}">
+        <img src="${trip.image}" height="500" width="750">
         <section>
         <p>Reservation Summary:</p>
         <p>Date: ${dayjs(trip.date).format('MMMM, D, YYYY')}</p>
-        <p>Number of Travelers: ${trip.travelers}</p>
-        <p>Trip Duration: ${trip.duration}</p>
+        <p>Number of Travelers: ${trip.travelers} Travelers</p>
+        <p>Trip Duration: ${trip.duration} Days</p>
         <p>Trip Status: ${trip.status}</p>
         <p>Destination: ${trip.destination}</p>
-        <p>Total Cost: ${trip.withAgentFee}<p>
+        <p>Total Cost: $${trip.withAgentFee.toFixed(2)}<p>
         `
     })
     return travelerCards.innerHTML = result
 }
 
-// const displayCustomerBooking = () => {
-//     let room = rooms.map(room => new Room(room))
-//     const result = singleCustomer.myBookings.map(booking => {
-//         return `<section class='booking-card' id=${booking.userID}>
-//         <img src="${trip.image}">
-//         <section>
-//         <p>Reservation Summary:</p>
-//         <p> ${dayjs(booking.date).format('MMMM, D, YYYY')}</p>
-//         <p>Room #${booking.roomNumber}</p>
-//         <p>Room Type: ${booking.roomType}</p>
-//         <p>Bidet Included: ${booking.bidet ? 'yes' : 'no'}</p>
-//         <p>Number of Beds: ${booking.numberOfBeds}
-//         <p>Bed Size: ${booking.bedSize}</p>
-//         <p id="${booking.id}" class="room-cost">Cost: $${booking.roomCost}</p>
-//         </section>
-//         <button id="${booking.id}" class hidden="book-room-button">Book Now!</button>
-//         </section>
-//         `
-//     }).join(' ')
-//     return customerBookings.innerHTML = result
-// }
+const showDestinations = () => {
+    const destinationSelection = document.querySelector('.destination-entry-selection')
+    let destinationOptions = session.destinations.map(option => {
+        return `<option> ${option.destination} </option>`
+    })
+    destinationSelection.innerHTML = `
+    <form>
+        <label for="destination-selection">Select Destination:</label>
+        <select id="select1" name="destination-selection" class="destination-entry-selection" required>
+        ${destinationOptions}
+        </select>
+    `
+}
+
+
+
+const postTripData = (event) => {
+        trip = new Trip(trips);
+        console.log(trip)
+        // make variables with a value of the values i'm capturing on the submit click event
+        // new instantiations of Trip and Destination in each POST call
+        // maybe another .then invoke other postCall there
+        // fetch("http://localhost:3001/api/v1/hydration", {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify({
+        //       userID: singleUser.id,
+        //       date: date,
+        //       numOunces: numberOunces.value
+        //     }),
+        // })
+        // .then((response) => {
+        //     if (!response.ok) {
+        //       throw new Error(
+        //         "There was an error adding your Hydration Data, please retry later"
+        //       );
+        //     } else {
+        //       return response.json();
+        //     }
+        //   })
+        //   .then(() => {
+        //     getFetch()
+        //     .then(() => displayHydrationInfo()) 
+        //   })
+        //   .catch((err) => {
+        //     postErrorMessage.innerText = 'Error updating data, please retry later'
+        //   });
+    }
+
+
 
 window.addEventListener('load', getFetch)
