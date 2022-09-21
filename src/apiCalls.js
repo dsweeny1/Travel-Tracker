@@ -4,7 +4,7 @@ const fetchData = (url) => {
 }
 
 const fetchAll = () => {
-    return Promise.all([fetchData('http://localhost:3001/api/v1/travelers'), fetchData('http://localhost:3001/api/v1/trips'), fetchData('http://localhost:3001/api/v1/destinations')])
+    return Promise.all([fetchData('http://localhost:3001/api/v1/travelers'), fetchData('http://localhost:3001/api/v1/destinations'), fetchData('http://localhost:3001/api/v1/trips')])
 }
 
 export { fetchAll }
