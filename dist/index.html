@@ -13,17 +13,18 @@
       <section class="select-date-container">
         <form class="calendar-form">
           <label for="select-date">Book Your Next Trip!:</label>
-          <input type="date" id="select-date" name="user-booking-date">
+          <input type="date" id="select-date" name="user-booking-date" aria-label="select start date of trip">
           <span class="validity"></span>
         </form>
         <label for="destination-selection">Select Destination:</label>
-        <select id="select-destination" name="destination-selection" class="destination-entry-selection" required>
+        <select id="select-destination" name="destination-selection" aria-label="enter destination location" class="destination-entry-selection" required>
         </select>
-        <label class="num-travelers" aria-label="enter number of travelers" for="numTravelers">Number of Travelers:</label>
-        <input type="number" id="number-of-travelers" name="quantity" min="1" max="50">
-        <label class="duration" aria-label="enter desired duration" for="duration">Duration of Trip:</label>
-        <input type="number" id="duration" name="quantity" min="1" max="50">
-        <button class="submit-button">Sumbit Your Trip!</button>
+        <label class="num-travelers" for="numTravelers">Number of Travelers:</label>
+        <input type="number" aria-label="enter number of travelers" value="1" id="number-of-travelers" name="quantity" min="1" max="50">
+        <label class="duration" for="duration">Duration of Trip:</label>
+        <input type="number" aria-label="enter desired duration" value="1" id="duration" name="quantity" min="1" max="50">
+        <button class="submit-button" aria-label="submit your trip information">Sumbit Your Trip!</button>
+        <p class="error-message"></p>
       </section>
   </aside>
   <main class="trip-container">
