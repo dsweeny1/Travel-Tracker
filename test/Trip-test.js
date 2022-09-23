@@ -5,8 +5,6 @@ describe("Trip", () => {
     let trip1;
     let trip2;
     let trips;
-    // let travelers;
-    // let destinations
 
     beforeEach(() => {
         trip1 = new Trip(1)

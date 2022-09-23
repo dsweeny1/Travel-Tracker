@@ -18,6 +18,7 @@ export default class Session {
                     this.eachTravelerTrips.push({
                         id: trip.id,
                         userID: trip.userID,
+                        destinationID: destination.id,
                         travelers: trip.travelers,
                         date: trip.date,
                         duration: trip.duration,
