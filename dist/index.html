@@ -7,7 +7,7 @@
   <title>Webpack Starter Kit</title>
 </head>
 <body>
-  <aside class="data-input">
+  <aside class="data-input hidden">
     <section class="welcome-customer-container">
       <h3 class="welcome-customer-text"></h3>
       <section class="select-date-container">
@@ -27,11 +27,21 @@
         <p class="error-message"></p>
       </section>
   </aside>
-  <main class="trip-container">
+  <main class="trip-container hidden">
   </main>
-  <!-- <img src="./images/travel-tracker-background.png" alt="traveling-background"> -->
-  
-  <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
+  <section class="login" id="loginSection">
+    <form accept-charset="">
+      <div class="login-container">
+        <h2 class="login-greeting">Welcome to Travel Tracker!</h2>
+        <label class="username-text" aria-label="enter username" for="username"><b>Username</b></label>
+        <input class="username" id="username" type="text" placeholder="Username goes here" name="username" required>
+        <label class="password-text" aria-label="enter password" for="psw"><b>Password</b></label>
+        <input class="password" id="password" type="password" placeholder="Password goes here" name="password" required>
+        <button class="login-btn" id="loginBtn">Login</button>
+        <p id="loginError"></p>
+      </div>
+    </form>
+  </section>
   <script src="bundle.js"></script>
 
 </body>

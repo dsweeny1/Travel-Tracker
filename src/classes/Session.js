@@ -13,7 +13,7 @@ export default class Session {
             travelerTrips.forEach(trip => {
                 let lodgingCost = destination.estimatedLodgingCostPerDay * trip.duration
                 let flightCost = destination.estimatedFlightCostPerPerson * trip.travelers
-                let totalCost = destination.estimatedLodgingCostPerDay + destination.estimatedFlightCostPerPerson
+                let totalCost = lodgingCost + flightCost
                 if(destination.id === trip.destinationID) {
                     this.eachTravelerTrips.push({
                         id: trip.id,
