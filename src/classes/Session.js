@@ -11,18 +11,21 @@ export default class Session {
         const travelerTrips = this.trips.filter(trip => travelerID.id === trip.userID)
         this.destinations.filter(destination => {
             travelerTrips.forEach(trip => {
-                let totalCost = (destination.estimatedLodgingCostPerDay + destination.estimatedFlightCostPerPerson) * trip.travelers
+                let lodgingCost = destination.estimatedLodgingCostPerDay * trip.duration
+                let flightCost = destination.estimatedFlightCostPerPerson * trip.travelers
+                let totalCost = lodgingCost + flightCost
                 if(destination.id === trip.destinationID) {
                     this.eachTravelerTrips.push({
                         id: trip.id,
                         userID: trip.userID,
+                        destinationID: destination.id,
                         travelers: trip.travelers,
                         date: trip.date,
                         duration: trip.duration,
                         status: trip.status,
                         suggestedActivities: trip.suggestedActivities,
                         destination: destination.destination,
-                        totalTripCost: (destination.estimatedLodgingCostPerDay + destination.estimatedFlightCostPerPerson) * trip.travelers,
+                        totalTripCost: totalCost,
                         withAgentFee: (totalCost * .1) + totalCost,
                         image: destination.image,
                         alt: destination.alt
