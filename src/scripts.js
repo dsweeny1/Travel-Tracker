@@ -19,6 +19,12 @@ const travelersInput = document.querySelector('#number-of-travelers')
 const durationInput = document.querySelector('#duration')
 const submitButton = document.querySelector('.submit-button')
 const postErrorMessage = document.querySelector('.error-message')
+let username = document.querySelector('.username');
+let password = document.querySelector('.password');
+// let mainSection = document.querySelector('.main-section');
+let loginError = document.querySelector('#loginError');
+let loginButton = document.querySelector('.login-btn')
+const loginContainer = document.querySelector('.login-container')
 
 
 // GLOBAL VARIABLES
@@ -34,18 +40,27 @@ const getFetch = () => {
         travelers = data[0].travelers
         destinations = data[1].destinations
         trips = data[2].trips
-        session = new Session(travelers, destinations, trips)
-        singleTraveler = new Traveler(travelers[0])
-        session.findAllTripsByTraveler(singleTraveler.id)
-        customerInfo()
-        displayTravelerTrips()
-        showDestinations()
+        // startSession(travelers, destinations, trips)
     })
+}
+
+const startSession = (travelers, destinations, trips) => {
+  session = new Session(travelers, destinations, trips)
+  console.log(travelers[21])
+  let userID = parseInt(username.value.slice(8, username.value.length));
+  singleTraveler = new Traveler(travelers[userID - 1]);
+  console.log(singleTraveler)
+  session.findAllTripsByTraveler(singleTraveler.id)
 }
 
 const getRandomUserId = () => {
     return Math.floor(Math.random() * 49) + 1;
 };
+
+// const displayTravelerView = () => {
+//   show(travelerCards)
+//   show(dataInput)
+// }
 
 const customerInfo = () => {
     travelerGreeting.innerText = `Welcome ${singleTraveler.name.split(" ")[0]}!
@@ -63,10 +78,11 @@ const displayTravelerTrips = () => {
     <p>Trip Duration: ${trip.duration} Days</p>
     <p>Trip Status: ${trip.status}</p>
     <p>Destination: ${trip.destination}</p>
-    <p>Total Cost: $${trip.withAgentFee.toFixed(2)}<p>
+    <p>Total Cost: $${trip.withAgentFee.toFixed(2)}</p>
     `
   })
-  travelerCards.innerHTML = ''
+  // travelerCards.innerHTML = ''
+  console.log('each', session.eachTravelerTrips)
     return travelerCards.innerHTML = result
 }
 
@@ -122,14 +138,44 @@ const postTripData = () => {
           })
           .then((response) => {
             getFetch()
-              session.trips.push(trip)
+            session.trips.push(trip)
             session.findAllTripsByTraveler(singleTraveler.id)
             displayTravelerTrips()
+            customerInfo()
           })
           .catch((err) => {
             postErrorMessage.innerText = 'Error updating data, please retry later'
           });
     }
 
-submitButton.addEventListener('click', postTripData)
-window.addEventListener('load', getFetch)
+    const verifyLogin = (event) => {
+      event.preventDefault();
+      if (username.value === "" || password.value === "") {
+        loginError.innerText = `PLEASE SUBMIT BOTH USERNAME AND PASSWORD!`;
+      } else if (password.value !== "travel") {
+        loginError.innerText = `INCORRECT PASSWORD!`;
+      } else if (!username.value.includes("traveler")) {
+        loginError.innerText = `USERNAME DOES NOT EXIST! PLEASE TRY AGAIN.`;
+      } else {
+        loginError.innerText = '';
+        startSession(travelers, destinations, trips)
+        displayTravelerView();
+      }
+    }
+  
+    const displayTravelerView = () => {
+      displayTravelerTrips()
+      customerInfo()
+      showDestinations()
+      show(travelerCards)
+      show(dataInput)
+      hide(loginContainer)
+    };
+
+  const show = (event) => event.classList.remove("hidden");
+    
+  const hide = (event) => event.classList.add("hidden");
+
+  loginButton.addEventListener('click', verifyLogin)
+  submitButton.addEventListener('click', postTripData)
+  window.addEventListener('load', getFetch)
