@@ -19,17 +19,22 @@ describe("Traveler", () => {
         expect(Traveler).to.be.a('function')
     })
 
-    // it('Should return the traveler names from id number', () => {
-    //     traveler1.getTravelerName()
-    //     traveler2.getTravelerName()
-    //     expect(traveler1.name).to.equal("Ham Leadbeater")
-    //     expect(traveler2.name).to.equal("Rachael Vaughten")
-    // })
+    it("Should be an instance of User", () => {
+        expect(traveler1).to.be.an.instanceOf(Traveler);
+    });
 
-    // it('Should return the traveler type from id number', () => {
-    //     traveler1.getTravelerType()
-    //     traveler2.getTravelerType()
-    //     expect(traveler1.travelerType).to.equal("relaxer")
-    //     expect(traveler2.travelerType).to.equal("thrill-seeker")
-    // })
+    it("Should have an id", () => {
+        expect(travelers[0].id).to.equal(1);
+        expect(travelers[1].id).to.equal(2);
+    });
+
+    it("Should have a name", () => {
+        expect(travelers[0].name).to.equal("Ham Leadbeater");
+        expect(travelers[1].name).to.equal("Rachael Vaughten");
+    });
+
+    it("Should have a traveler type", () => {
+        expect(travelers[0].travelerType).to.equal("relaxer");
+        expect(travelers[1].travelerType).to.equal("thrill-seeker");
+    });
 })
