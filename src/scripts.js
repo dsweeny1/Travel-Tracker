@@ -3,11 +3,6 @@ const dayjs = require('dayjs')
 import { fetchAll } from './apiCalls'
 import Session from './classes/Session';
 import Traveler from './classes/Traveler';
-import Trip from './classes/Trip';
-import Destination from './classes/Destination';
-
-
-// console.log('This is the JavaScript entry file - your code begins here.');
 
 // QUERYSELECTORS
 const travelerGreeting = document.querySelector('.welcome-customer-text')
@@ -21,7 +16,6 @@ const submitButton = document.querySelector('.submit-button')
 const postErrorMessage = document.querySelector('.error-message')
 let username = document.querySelector('.username');
 let password = document.querySelector('.password');
-// let mainSection = document.querySelector('.main-section');
 let loginError = document.querySelector('#loginError');
 let loginButton = document.querySelector('.login-btn')
 const loginContainer = document.querySelector('.login-container')
@@ -33,6 +27,7 @@ let trips;
 let destinations;
 let session;
 let singleTraveler;
+let currentYear = dayjs().format('YYYY')
 const getFetch = () => {
     fetchAll()
     .then(data => {
@@ -40,35 +35,23 @@ const getFetch = () => {
         travelers = data[0].travelers
         destinations = data[1].destinations
         trips = data[2].trips
-        // startSession(travelers, destinations, trips)
     })
 }
 
 const startSession = (travelers, destinations, trips) => {
   session = new Session(travelers, destinations, trips)
-  console.log(travelers[21])
   let userID = parseInt(username.value.slice(8, username.value.length));
   singleTraveler = new Traveler(travelers[userID - 1]);
-  console.log(singleTraveler)
   session.findAllTripsByTraveler(singleTraveler.id)
 }
 
-const getRandomUserId = () => {
-    return Math.floor(Math.random() * 49) + 1;
-};
-
-// const displayTravelerView = () => {
-//   show(travelerCards)
-//   show(dataInput)
-// }
-
 const customerInfo = () => {
     travelerGreeting.innerText = `Welcome ${singleTraveler.name.split(" ")[0]}!
-    So far you've spent $${session.getTotalSpent()} with us. Happy traveling!`
+    So far you've spent $${session.getTotalSpent(currentYear)} with us. Happy traveling!`
 };
 
 const displayTravelerTrips = () => {
-  let result = session.eachTravelerTrips.map(trip => {
+    let result = session.eachTravelerTrips.map(trip => {
     return `<section class="trip-container" id=${trip.userID}>
     <img src="${trip.image}" height="250" width="500" alt="${trip.alt}">
     <section>
@@ -81,8 +64,6 @@ const displayTravelerTrips = () => {
     <p>Total Cost: $${trip.withAgentFee.toFixed(2)}</p>
     `
   })
-  // travelerCards.innerHTML = ''
-  console.log('each', session.eachTravelerTrips)
     return travelerCards.innerHTML = result
 }
 
@@ -137,7 +118,6 @@ const postTripData = () => {
             }
           })
           .then((response) => {
-            getFetch()
             session.trips.push(trip)
             session.findAllTripsByTraveler(singleTraveler.id)
             displayTravelerTrips()
@@ -146,6 +126,22 @@ const postTripData = () => {
           .catch((err) => {
             postErrorMessage.innerText = 'Error updating data, please retry later'
           });
+    }
+
+    const displayPendingTrips = () => {
+      const pendingTrips = document.querySelector('.pending-trips')
+      let result = session.eachTravelerTrips.filter(pendingTrip => pendingTrip.status === 'pending').map(pendingTrip => {
+        return `<section class="pending-trips" id=${pendingTrip.userID}>
+        <p>Pending Trip:</p>
+        <p>Date: ${dayjs(pendingTrip.date).format('MMMM, D, YYYY')}</p>
+        <p>Number of Travelers: ${pendingTrip.travelers} Travelers</p>
+        <p>Trip Duration: ${pendingTrip.duration} Days</p>
+        <p>Trip Status: ${pendingTrip.status}</p>
+        <p>Destination: ${pendingTrip.destination}</p>
+        <p>Total Cost: $${pendingTrip.withAgentFee.toFixed(2)}</p>
+        `
+      })
+        return pendingTrips.innerHTML = result
     }
 
     const verifyLogin = (event) => {
@@ -160,20 +156,20 @@ const postTripData = () => {
         loginError.innerText = '';
         startSession(travelers, destinations, trips)
         displayTravelerView();
-      }
-    }
+      };
+    };
   
     const displayTravelerView = () => {
       displayTravelerTrips()
       customerInfo()
       showDestinations()
+      displayPendingTrips()
       show(travelerCards)
       show(dataInput)
       hide(loginContainer)
     };
 
   const show = (event) => event.classList.remove("hidden");
-    
   const hide = (event) => event.classList.add("hidden");
 
   loginButton.addEventListener('click', verifyLogin)

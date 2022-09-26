@@ -24,6 +24,12 @@ font-family: Georgia, 'Times New Roman', Times, serif;
   background-color:lavender;
 }
 
+.pending-trips {
+  font-weight: bold;
+  color:darkcyan;
+  background-color:rgb(228, 229, 168);
+}
+
 .hidden {
   display: none
 }
