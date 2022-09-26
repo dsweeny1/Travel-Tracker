@@ -122,6 +122,7 @@ const postTripData = () => {
             session.findAllTripsByTraveler(singleTraveler.id)
             displayTravelerTrips()
             customerInfo()
+            displayPendingTrips()
           })
           .catch((err) => {
             postErrorMessage.innerText = 'Error updating data, please retry later'

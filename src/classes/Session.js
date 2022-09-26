@@ -14,6 +14,8 @@ export default class Session {
             travelerTrips.forEach(trip => {
                 let lodgingCost = destination.estimatedLodgingCostPerDay * trip.duration
                 let flightCost = destination.estimatedFlightCostPerPerson * trip.travelers
+                console.log('lodge', lodgingCost)
+        console.log('flight', flightCost)
                 let totalCost = lodgingCost + flightCost
                 if(destination.id === trip.destinationID) {
                     this.eachTravelerTrips.push({
@@ -34,7 +36,13 @@ export default class Session {
                 }
             })
         })
+        console.log('each', this.eachTravelerTrips)
         return this.eachTravelerTrips
+    }
+
+    getPendingTrips() {
+        const pendingTrips = this.eachTravelerTrips.filter(trip => trip.status === 'pending')
+        return pendingTrips
     }
 
     getTotalSpent(currentYear) {
