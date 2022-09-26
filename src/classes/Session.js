@@ -7,6 +7,7 @@ export default class Session {
     }
 
     findAllTripsByTraveler(id) {
+        this.eachTravelerTrips = []
         const travelerID = this.travelers.find(traveler => id === traveler.id)
         const travelerTrips = this.trips.filter(trip => travelerID.id === trip.userID)
         this.destinations.filter(destination => {
@@ -36,13 +37,9 @@ export default class Session {
         return this.eachTravelerTrips
     }
 
-    getPendingTrips() {
-        const findPending = this.eachTravelerTrips.filter(trip => trip.status === 'pending')
-        return findPending
-    }
-
-    getTotalSpent() {
+    getTotalSpent(currentYear) {
         const tripCost = this.eachTravelerTrips.reduce((totalCost, trip) => {
+            if(trip.date.includes(currentYear))
                 totalCost += trip.withAgentFee
             return totalCost
         }, 0)
