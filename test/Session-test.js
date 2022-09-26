@@ -111,7 +111,6 @@ beforeEach(() => {
     })
 
     it('Should be able to show a traveler all of their trips', () => {
-      console.log(session)
       expect(session.eachTravelerTrips).to.deep.equal([])
         session.findAllTripsByTraveler(1)
         expect(session.eachTravelerTrips).to.deep.equal([
