@@ -3,9 +3,9 @@
 ## Abstract
 Ever wanted to track your travel adventures? Use this repo to help you do just that! This was a group project assigned by the [Turing School of Software and Design](https://turing.edu/). This was a travel tracking application which utilized a variety of technologies, including javaScript, HTML, CSS, Mocha, and Chai. So far I have completed just 50% of the Turing curriculum, primarily focusing on vanilla JS to this point. The project was completed in two individual one week pushes. The project goals were to: implement ES6 classes that communicate to each other as needed, use object and array prototype methods to perform data manipulation, create a dashboard that is easy to use and displays information in a clear way, write modular, reusable code that follows SRP, implement a robust testing suite using TDD, make network requests to retrieve data, and ensure that our app follows best practices for accessability. 
 
-![2022-09-26 11 28 54](https://user-images.githubusercontent.com/11345457/192343369-fe8e999d-d67b-4032-a86f-a2a4c2da093e.gif)
-![2022-09-26 11 26 50](https://user-images.githubusercontent.com/11345457/192343428-0bdaf576-e5e6-49ba-befe-021cde63067c.gif)
 ![2022-09-26 11 26 21](https://user-images.githubusercontent.com/11345457/192343455-211851bf-52a7-49a6-a076-338c327fb1fd.gif)
+![2022-09-26 11 26 50](https://user-images.githubusercontent.com/11345457/192343428-0bdaf576-e5e6-49ba-befe-021cde63067c.gif)
+![2022-09-26 11 28 54](https://user-images.githubusercontent.com/11345457/192343369-fe8e999d-d67b-4032-a86f-a2a4c2da093e.gif)
 
 
 ## Setup
