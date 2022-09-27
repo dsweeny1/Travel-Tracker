@@ -19,6 +19,7 @@ let password = document.querySelector('.password');
 let loginError = document.querySelector('#loginError');
 let loginButton = document.querySelector('.login-btn')
 const loginContainer = document.querySelector('.login-container')
+const logoutButton = document.querySelector('.logout-button')
 
 
 // GLOBAL VARIABLES
@@ -170,9 +171,16 @@ const postTripData = () => {
       hide(loginContainer)
     };
 
+    const displayLogoutView = () => {
+      hide(travelerCards)
+      hide(dataInput)
+      show(loginContainer)
+    };
+
   const show = (event) => event.classList.remove("hidden");
   const hide = (event) => event.classList.add("hidden");
 
+  logoutButton.addEventListener('click', displayLogoutView)
   loginButton.addEventListener('click', verifyLogin)
   submitButton.addEventListener('click', postTripData)
   window.addEventListener('load', getFetch)
